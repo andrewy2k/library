@@ -5,7 +5,7 @@
     @for (key of libraryKeysArray; track key){
       <tr>
         <th>{{ libraryKeyTranslations.get(key) }}</th>
-        <td>{{ getDisplayValue(library, key) }}</td>
+        <td>{{ library | displayValue:key }}</td>
       </tr>
     }
   </table>

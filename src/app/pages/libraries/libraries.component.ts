@@ -24,7 +24,7 @@ import {
 import { ApiService } from '../../services/api.service';
 import { ELibraryKeys, ILibrary, IObjectAddress, IWrapper, LibraryKeyTranslations } from '../../models/library';
 import { IRequestParams } from '../../models/api';
-import { HighlightPipe } from '../../pipes/highlight.pipe';
+import { HighlightPipe } from '../../pipe/highlight.pipe';
 import { RouterLink } from '@angular/router';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { EmptyComponent } from '../../components/empty/empty.component';

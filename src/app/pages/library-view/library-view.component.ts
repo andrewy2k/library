@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { IRequestParams } from '../../models/api';
 import { BehaviorSubject, finalize, map, Subject, takeUntil } from 'rxjs';
-import { ELibraryKeys, IContact, ILibrary, IWrapper, LibraryKeyTranslations } from '../../models/library';
+import { ELibraryKeys, ILibrary, IWrapper, LibraryKeyTranslations } from '../../models/library';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AsyncPipe } from '@angular/common';
 import { LoaderComponent } from '../../components/loader/loader.component';
 import { EmptyComponent } from '../../components/empty/empty.component';
+import { DisplayValuePipe } from '../../pipe/display-value.pipe';
 
 @Component({
   selector: 'app-library-view',
@@ -15,7 +16,8 @@ import { EmptyComponent } from '../../components/empty/empty.component';
     AsyncPipe,
     RouterLink,
     LoaderComponent,
-    EmptyComponent
+    EmptyComponent,
+    DisplayValuePipe
   ],
   templateUrl: './library-view.component.html',
   styleUrl: './library-view.component.scss',
@@ -45,34 +47,6 @@ export class LibraryViewComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy.next();
     this.destroy.complete();
-  }
-
-  protected getDisplayValue(obj: ILibrary | null, key: keyof ILibrary): string {
-    if (!obj) return '';
-
-    let value = obj[key];
-
-    if(typeof value === "object" && value !== null){
-      switch (key){
-        case ELibraryKeys.Email:
-        case ELibraryKeys.Fax:
-        case ELibraryKeys.PublicPhone:
-          value = obj[key].map((item: IContact)=>{
-            return item.hasOwnProperty(key) ? item[key] : '';
-          }).join(', ');
-          break;
-        case ELibraryKeys.geoData:
-          value = obj[key].coordinates.map((coord)=>`(${coord.join(', ')})`).join(', ');
-          break;
-        case ELibraryKeys.ObjectAddress:
-          value = obj[key].map((addres)=>addres.Address).join(',');
-          break;
-        case ELibraryKeys.WorkingHours:
-          value = obj[key].map((v)=>`${v.DayWeek}: ${v.WorkHours}`).join(', ');
-          break;
-      }
-    }
-      return String(value) || '-';
   }
 
   private initLibraryParams(globalId: string): void {
