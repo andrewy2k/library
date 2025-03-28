@@ -1,24 +1,59 @@
-interface IAvailabilityElement {
-  is_deleted: number;
+export enum ELibraryKeys {
+  Category = 'Category',
+  CommonName = 'CommonName',
+  FullName = 'FullName',
+  ShortName = 'ShortName',
+  ObjectAddress = 'ObjectAddress',
+  ChiefOrg = 'ChiefOrg',
+  ChiefName = 'ChiefName',
+  ChiefPosition = 'ChiefPosition',
+  PublicPhone = 'PublicPhone',
+  Fax = 'Fax',
+  Email = 'Email',
+  WorkingHours = 'WorkingHours',
+  ClarificationOfWorkingHours = 'ClarificationOfWorkingHours',
+  WebSite = 'WebSite',
+  NumOfSeats = 'NumOfSeats',
+  NumOfReaders = 'NumOfReaders',
+  NumOfVisitors = 'NumOfVisitors',
+  global_id = 'global_id',
+  geoData = 'geoData'
+}
+export interface IWrapper<T> {
   global_id: number;
-  Group_mgn: string;
-  Area_mgn: string;
-  Element_mgn: string;
-  available_degree: string;
-  available_index: string;
+  Number: number;
+  Cells: T;
 }
 
-interface IAvailability {
-  is_deleted: number;
-  global_id: number;
-  available_k: string;
-  available_o: string;
-  available_z: string;
-  available_s: string;
-  available_element: IAvailabilityElement[];
+export interface ILibrary {
+  [ELibraryKeys.Category]: string;
+  [ELibraryKeys.CommonName]: string;
+  [ELibraryKeys.FullName]: string;
+  [ELibraryKeys.ShortName]: string;
+  [ELibraryKeys.ObjectAddress]: IObjectAddress[];
+  [ELibraryKeys.ChiefOrg]: string;
+  [ELibraryKeys.ChiefName]: string;
+  [ELibraryKeys.ChiefPosition]: string;
+  [ELibraryKeys.PublicPhone]: IContact[];
+  [ELibraryKeys.Fax]: IContact[];
+  [ELibraryKeys.Email]: IContact[];
+  [ELibraryKeys.WorkingHours]: IWorkingHours[];
+  [ELibraryKeys.ClarificationOfWorkingHours]: string;
+  [ELibraryKeys.WebSite]: string;
+  [ELibraryKeys.NumOfSeats]: number;
+  [ELibraryKeys.NumOfReaders]: number;
+  [ELibraryKeys.NumOfVisitors]: number;
+  [ELibraryKeys.global_id]: number;
+  [ELibraryKeys.geoData]: IGeoData;
 }
 
-interface IObjectAddress {
+export interface IChiefPhone {
+  is_deleted: number;
+  global_id: number;
+  ChiefPhone: string;
+}
+
+export interface IObjectAddress {
   is_deleted: number;
   AdmArea: string;
   District: string;
@@ -28,61 +63,64 @@ interface IObjectAddress {
   global_id: number;
 }
 
-interface IChiefPhone {
+export interface IAvailability {
   is_deleted: number;
   global_id: number;
-  ChiefPhone: string;
+  available_k: string;
+  available_o: string;
+  available_z: string;
+  available_s: string;
+  available_element: IAvailableElement[];
 }
 
-interface IOrgInfo {
+export interface IAvailableElement {
   is_deleted: number;
-  ChiefPhone: IChiefPhone[];
-  FullName: string;
-  INN: string;
-  KPP: string;
-  OGRN: string;
-  LegalAddress: string;
-  ChiefName: string;
-  ChiefPosition: string;
   global_id: number;
+  Group_mgn: string;
+  Area_mgn: string;
+  Element_mgn: string;
+  available_degree: string;
+  available_index: string;
 }
 
-interface IContact {
+export interface IContact {
   is_deleted: number;
-  global_id: number;
+  Email?: string;
   PublicPhone?: string;
   Fax?: string;
-  Email?: string;
+  global_id: number;
 }
 
-interface IWorkingHours {
+export interface IWorkingHours {
   is_deleted: number;
   DayWeek: string;
   WorkHours: string;
   global_id: number;
 }
 
-interface ILibrary {
-  is_deleted: number;
-  Category: string;
-  CommonName: string;
-  FullName: string;
-  ShortName: string;
-  OrgInfo: IOrgInfo[];
-  ObjectAddress: IObjectAddress[];
-  ChiefOrg: string;
-  ChiefName: string;
-  ChiefPosition: string;
-  PublicPhone: IContact[];
-  Fax: IContact[];
-  Email: IContact[];
-  WorkingHours: IWorkingHours[];
-  ClarificationOfWorkingHours: string;
-  WebSite: string;
-  NumOfSeats: number;
-  NumOfReaders: number;
-  NumOfVisitors: number;
-  global_id: number;
-  geoData: { type: string; coordinates: number[][] };
-  geodata_center: null;
+export interface IGeoData {
+  coordinates: number[][];
+  type: string;
 }
+
+export const LibraryKeyTranslations = new Map<ELibraryKeys, string>([
+  [ELibraryKeys.Category, 'Категория'],
+  [ELibraryKeys.CommonName, 'Общее название'],
+  [ELibraryKeys.FullName, 'Полное официальное наименование'],
+  [ELibraryKeys.ShortName, 'Краткое название'],
+  [ELibraryKeys.ObjectAddress, 'Адрес объекта'],
+  [ELibraryKeys.ChiefOrg, 'Руководящая организация'],
+  [ELibraryKeys.ChiefName, 'ФИО руководителя'],
+  [ELibraryKeys.ChiefPosition, 'Должность руководителя'],
+  [ELibraryKeys.PublicPhone, 'Контактные телефоны'],
+  [ELibraryKeys.Fax, 'Факс'],
+  [ELibraryKeys.Email, 'Электронная почта'],
+  [ELibraryKeys.WorkingHours, 'Часы работы'],
+  [ELibraryKeys.ClarificationOfWorkingHours, 'Уточнение часов работы'],
+  [ELibraryKeys.WebSite, 'Веб-сайт'],
+  [ELibraryKeys.NumOfSeats, 'Количество мест'],
+  [ELibraryKeys.NumOfReaders, 'Количество читателей'],
+  [ELibraryKeys.NumOfVisitors, 'Количество посетителей'],
+  [ELibraryKeys.global_id, 'Глобальный ID'],
+  [ELibraryKeys.geoData, 'Геоданные']
+]);

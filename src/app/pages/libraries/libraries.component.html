@@ -1,0 +1,63 @@
+<img
+  ngSrc="assets/images/beautiful-milky-way-night-sky.jpg"
+  ngSrcset="480w, 800w, 1600w, 1920w, 3440w"
+  priority
+  width="1366"
+  height="768"
+  sizes="60%"
+  class="image mb-30"
+  alt="Image">
+
+<div class="input-c mb-30">
+  <input
+    type="text"
+    placeholder="Введите текст для поиска"
+    [formControl]="search"
+  >
+  <img src="assets/images/search.svg" alt="search">
+</div>
+
+@if (libraries$ | async; as libraries) {
+  <table class="t-list mb-30">
+    <tr>
+      <th>№</th>
+      <th>{{ libraryKeyTranslations.get(ELibraryKeys.FullName) }}</th>
+      <th>{{ libraryKeyTranslations.get(ELibraryKeys.ObjectAddress) }}</th>
+    </tr>
+    @for (library of libraries; track library[ELibraryKeys.global_id]; let i = $index) {
+      <tr>
+        <td>
+          <a [routerLink]="['/libraries', library[ELibraryKeys.global_id]]" class="row-link">
+            {{ i + 1 }}
+          </a>
+        </td>
+
+        <td>
+          <a [routerLink]="['/libraries', library[ELibraryKeys.global_id]]" class="row-link">
+            <span [innerHTML]="library[ELibraryKeys.FullName] | highlight: searchValue"></span>
+          </a>
+        </td>
+        <td>
+          <a [routerLink]="['/libraries', library[ELibraryKeys.global_id]]" class="row-link">
+            {{ makeAddress(library[ELibraryKeys.ObjectAddress]) }}
+          </a>
+        </td>
+      </tr>
+    }
+  </table>
+} @else if (!(libraries$ | async) && !(loading$ | async)) {
+  <app-empty class="mb-30"
+             [title]="'Ничего не найдено'"
+             [message]="'К сожалению, по вашему запросу ничего не найдено. Попробуйте изменить условия поиска.'">
+  </app-empty>
+}
+<app-loader class="mb-30" [loading$]="loading$"></app-loader>
+
+<button
+  id="bottomAnchor"
+  class="load-btn mb-30"
+  [disabled]="!canLoadMore || (loading$ | async)"
+  (click)="showMore()"
+>
+  Показать еще
+</button>

@@ -1,0 +1,11 @@
+@if (message || title) {
+  <div class="not-found-block__icon"><img src="assets/images/search.svg" alt="search"></div>
+  @if (title) {
+    <h2 class="not-found-block__title">{{ title }}</h2>
+  }
+  @if (message) {
+    <p class="not-found-block__description">
+      {{ message }}
+    </p>
+  }
+}

@@ -1,0 +1,48 @@
+:host{
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+
+  .back-link {
+    display: inline-block;
+    width: fit-content;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .details-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      vertical-align: top;
+    }
+
+    th {
+      text-align: left;
+      font-weight: bold;
+      color: #333;
+    }
+
+    td {
+      word-break: break-word;
+    }
+  }
+}
