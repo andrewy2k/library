@@ -36,7 +36,7 @@ export class LibraryViewComponent implements OnInit, OnDestroy {
   private readonly destroy: Subject<void> = new Subject();
   private readonly router: ActivatedRoute = inject(ActivatedRoute);
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.id = this.router.snapshot.params['id'];
     if (this.id) {
       this.initLibraryParams(this.router.snapshot.params['id']);
